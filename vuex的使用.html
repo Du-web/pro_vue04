@@ -24,11 +24,15 @@
             <div>
             第一个组件
             <button @click="add">变大按钮</button>
+            <button @click="clickMe">按钮</button>
 </div>
         `,
         methods:{
             add(){
                 this.$store.commit('num_add');
+            },
+            clickMe(){
+                this.$store.commit('ediUser',{name: 'william', pwd: '123456'})
             }
         }
     }
@@ -37,12 +41,18 @@
             <div>
             第二个组件
             <span>点击组件1的按钮，组件2中的数据有变化：{{$store.state.num}}</span>
+            <br>
+            <span>点击组件1的按钮，组件2中获取数据：{{$store.state.users}}</span>
 </div>
         `,
     }
     let myStore = new Vuex.Store({
         state:{
             num: 3,
+            users: {
+                username: 'tom',
+                pwd: '456789',
+            }
         },
         mutations: {
             num_add: function(state){
@@ -50,6 +60,12 @@
                     state.num++;
                 }
 
+            },
+            ediUser(state, user){
+                console.log(user.name);
+                console.log(state.users.username);
+                state.users.username = user.name;
+                state.users.pwd = user.pwd;
             }
         }
     })
